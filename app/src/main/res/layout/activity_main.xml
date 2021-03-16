@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/bmiDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:text="@string/BMI_description"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvBeratBadan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:labelFor="@id/etBeratBadan"
+            android:text="@string/berat_badan"
+            app:layout_constraintBottom_toBottomOf="@id/etBeratBadan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etBeratBadan" />
+
+        <EditText
+            android:id="@+id/etBeratBadan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTinggiBadan"
+            app:layout_constraintTop_toBottomOf="@id/bmiDescription" />
+
+        <TextView
+            android:id="@+id/tvTinggiBadan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:labelFor="@id/etTinggiBadan"
+            android:text="@string/tinggi_badan"
+            app:layout_constraintBottom_toBottomOf="@id/etTinggiBadan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/etTinggiBadan" />
+
+        <EditText
+            android:id="@+id/etTinggiBadan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/etBeratBadan"
+            app:layout_constraintTop_toBottomOf="@id/etBeratBadan" />
+
+        <TextView
+            android:id="@+id/tvJenisKelamin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:labelFor="@id/rgPilihKelamin"
+            android:text="@string/jenis_kelamin"
+            app:layout_constraintBottom_toBottomOf="@id/rgPilihKelamin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rgPilihKelamin" />
+
+        <RadioGroup
+            android:id="@+id/rgPilihKelamin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/etTinggiBadan"
+            app:layout_constraintTop_toBottomOf="@id/etTinggiBadan">
+
+            <RadioButton
+                android:id="@+id/rbPria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pria" />
+
+            <RadioButton
+                android:id="@+id/rbWanita"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/wanita" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnHitung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/hitung"
+            app:layout_constraintStart_toStartOf="@id/rgPilihKelamin"
+            app:layout_constraintTop_toBottomOf="@id/rgPilihKelamin" />
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            app:layout_constraintStart_toEndOf="@id/btnHitung"
+            android:text="@string/reset"
+            app:layout_constraintTop_toBottomOf="@id/rgPilihKelamin"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/horizontal_margin"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="@dimen/horizontal_margin"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnHitung" />
+
+        <TextView
+            android:id="@+id/tvBmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            tools:text="BMI: 24,09" />
+
+        <TextView
+            android:id="@+id/tvKategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBmi"
+            tools:text="Kategori: Ideal" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
