@@ -1,5 +1,6 @@
 package org.d3if2015.hitungbmi.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
@@ -22,7 +23,7 @@ class HitungFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_about){
+        if (item.itemId == R.id.menu_about) {
             findNavController().navigate(
                 R.id.action_hitungFragment_to_aboutFragment
             )
@@ -38,11 +39,12 @@ class HitungFragment : Fragment() {
     ): View? {
         binding = FragmentHitungBinding.inflate(layoutInflater, container, false)
         binding.btnHitung.setOnClickListener { hitungBmi() }
-        binding.btnSaran.setOnClickListener { view:View ->
+        binding.btnSaran.setOnClickListener { view: View ->
             view.findNavController().navigate(
                 HitungFragmentDirections.actionHitungFragmentToSaranFragment(kategoriBmi)
             )
         }
+        binding.btnShare.setOnClickListener { shareData() }
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -83,7 +85,33 @@ class HitungFragment : Fragment() {
 
         binding.tvBmi.text = getString(R.string.bmi_x, bmi)
         binding.tvKategori.text = getString(R.string.kategori_x, kategori)
-        binding.btnSaran.visibility = View.VISIBLE
+        binding.groupBtn.visibility = View.VISIBLE
+    }
+
+    private fun shareData() {
+        val selectedId = binding.rgPilihKelamin.checkedRadioButtonId
+        val gender = if (selectedId == R.id.rbPria)
+            getString(R.string.pria)
+        else
+            getString(R.string.wanita)
+
+        val message = getString(
+            R.string.bagikan_template,
+            binding.etBeratBadan.text,
+            binding.etTinggiBadan.text,
+            gender,
+            binding.tvBmi.text,
+            binding.tvKategori.text
+        )
+
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT, message)
+        if (shareIntent.resolveActivity(
+                requireActivity().packageManager
+            ) != null
+        ) {
+            startActivity(shareIntent)
+        }
     }
 
     private fun getKategori(bmi: Float, male: Boolean): String {
@@ -101,7 +129,7 @@ class HitungFragment : Fragment() {
             }
 
         }
-        val stringRes = when(kategoriBmi) {
+        val stringRes = when (kategoriBmi) {
             KategoriBmi.KURUS -> R.string.kurus
             KategoriBmi.IDEAL -> R.string.ideal
             KategoriBmi.GEMUK -> R.string.gemuk
