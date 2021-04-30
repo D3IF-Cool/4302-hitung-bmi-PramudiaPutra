@@ -6,6 +6,8 @@ import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import org.d3if2015.hitungbmi.R
@@ -14,6 +16,7 @@ import org.d3if2015.hitungbmi.databinding.FragmentHitungBinding
 
 class HitungFragment : Fragment() {
 
+    private val viewModel: HitungViewModel by viewModels()
     private lateinit var binding: FragmentHitungBinding
     private lateinit var kategoriBmi: KategoriBmi
 
@@ -49,6 +52,17 @@ class HitungFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.getHasilBmi().observe(viewLifecycleOwner, {
+            if (it == null) return@observe
+            binding.tvBmi.text = getString(R.string.bmi_x, it.bmi)
+            binding.tvKategori.text = getString(R.string.kategori_x, getKategori(it.kategori))
+            binding.groupBtn.visibility = View.VISIBLE
+        })
+    }
+
     private fun hitungBmi() {
         val berat = binding.etBeratBadan.text.toString()
         val tinggi = binding.etTinggiBadan.text.toString()
@@ -79,13 +93,8 @@ class HitungFragment : Fragment() {
         }
 
         val isMale = selectedId == R.id.rbPria
-        val tinggiCm = tinggi.toFloat() / 100
-        val bmi = berat.toFloat() / (tinggiCm * tinggiCm)
-        val kategori = getKategori(bmi, isMale)
 
-        binding.tvBmi.text = getString(R.string.bmi_x, bmi)
-        binding.tvKategori.text = getString(R.string.kategori_x, kategori)
-        binding.groupBtn.visibility = View.VISIBLE
+        viewModel.hitungBmi(berat, tinggi, isMale)
     }
 
     private fun shareData() {
@@ -114,22 +123,9 @@ class HitungFragment : Fragment() {
         }
     }
 
-    private fun getKategori(bmi: Float, male: Boolean): String {
-        kategoriBmi = if (male) {
-            when {
-                bmi < 20.5 -> KategoriBmi.KURUS
-                bmi >= 27.0 -> KategoriBmi.GEMUK
-                else -> KategoriBmi.IDEAL
-            }
-        } else {
-            when {
-                bmi < 18.5 -> KategoriBmi.KURUS
-                bmi >= 25.0 -> KategoriBmi.GEMUK
-                else -> KategoriBmi.IDEAL
-            }
+    private fun getKategori(kategori: KategoriBmi): String {
 
-        }
-        val stringRes = when (kategoriBmi) {
+        val stringRes = when (kategori) {
             KategoriBmi.KURUS -> R.string.kurus
             KategoriBmi.IDEAL -> R.string.ideal
             KategoriBmi.GEMUK -> R.string.gemuk
