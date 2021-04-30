@@ -83,10 +83,6 @@ class HitungFragment : Fragment() {
             binding.groupBtn.visibility = View.VISIBLE
         }
 
-        viewModel.data.observe(viewLifecycleOwner) {
-            if (it == null) return@observe
-            Log.d("HitungFragment", "Data Tersimpan. ID = ${it.id}")
-        }
     }
 
     private fun hitungBmi() {
